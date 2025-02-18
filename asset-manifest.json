@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/repository-name/static/css/main.d04ef63f.css",
+    "main.js": "/repository-name/static/js/main.540ab099.js",
+    "static/js/453.fb5195e2.chunk.js": "/repository-name/static/js/453.fb5195e2.chunk.js",
+    "static/media/climate-change.jpeg": "/repository-name/static/media/climate-change.73ae6320fd5da64ec8a0.jpeg",
+    "static/media/alien-invasion.jpg": "/repository-name/static/media/alien-invasion.726617d7108336ae2ded.jpg",
+    "static/media/medium-asteroid.jpg": "/repository-name/static/media/medium-asteroid.fb71affdc22982b3b791.jpg",
+    "static/media/small-asteroid.jpg": "/repository-name/static/media/small-asteroid.22ee9a82c8d7b5132a2a.jpg",
+    "index.html": "/repository-name/index.html",
+    "main.d04ef63f.css.map": "/repository-name/static/css/main.d04ef63f.css.map",
+    "main.540ab099.js.map": "/repository-name/static/js/main.540ab099.js.map",
+    "453.fb5195e2.chunk.js.map": "/repository-name/static/js/453.fb5195e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d04ef63f.css",
+    "static/js/main.540ab099.js"
+  ]
+}
