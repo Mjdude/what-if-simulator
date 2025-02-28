@@ -162,22 +162,25 @@ button:disabled {
 }
 
 /* Add a gradient border effect */
-.scenario::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(135deg, #ff6f61, #ffcc00);
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0.5;
+.scenario-selector select {
+  padding: 10px 15px;
+  font-size: 1em;
+  border-radius: 25px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.2);
+  color: #000000; /* Updated text color */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: float 3s ease-in-out infinite;
 }
 
-/* Add a subtle animation to the dropdown */
-.scenario-selector select {
-  animation: float 3s ease-in-out infinite;
+.scenario-selector select:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.scenario-selector select:focus {
+  outline: none;
+  border-color: #ffcc00;
 }
 
 @keyframes float {
@@ -187,4 +190,54 @@ button:disabled {
   50% {
     transform: translateY(-5px);
   }
+}
+
+/* DARK MODE STYLES */
+.App.dark-mode {
+  background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+  color: #ffffff;
+}
+
+/* Dark Mode for Scenario */
+.App.dark-mode .scenario {
+  background: rgba(50, 50, 50, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Dark Mode for Headings */
+.App.dark-mode h1 {
+  color: #ffcc00;
+}
+
+/* Dark Mode for Scenario Selector */
+.App.dark-mode .scenario-selector label {
+  color: white;
+}
+
+.App.dark-mode .scenario-selector select {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+}
+
+/* Dark Mode for Buttons */
+.App.dark-mode button {
+  background: #444;
+  color: white;
+  border: 1px solid white;
+}
+
+.App.dark-mode button:hover {
+  background: #666;
+}
+
+/* Dark Mode for Navigation Buttons */
+.App.dark-mode .navigation button {
+  background: #ff6f61;
+  color: white;
+}
+
+.App.dark-mode .navigation button:hover {
+  background: #ff3b2f;
 }
