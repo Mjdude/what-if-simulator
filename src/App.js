@@ -10,6 +10,9 @@ import mediumAsteroid from './images/medium-asteroid.jpg';
 import largeAsteroid from './images/large-asteroid.jpeg';
 import alienInvasion from './images/alien-invasion.jpg';
 import climateChange from './images/climate-change.jpeg';
+import aiTakeover from './images/ai-takeover.gif';
+import supervolcano from './images/supervolcano.gif';
+import nuclearWar from './images/nuclear-war.gif';
 import './App.css';
 
 function App() {
@@ -29,7 +32,6 @@ function App() {
     return () => stop();
   }, [playBgMusic, stop]);
 
-  // ✅ Sample scenarios data (replace with actual data)
   const scenarios = {
     asteroid: [
       {
@@ -38,6 +40,7 @@ function App() {
         options: [
           { text: "It burns up in the atmosphere", correct: true },
           { text: "It causes mass extinction", correct: false },
+          { text: "It creates a big crater", correct: false }
         ],
         explanation: "Most small asteroids burn up before reaching the ground."
       },
@@ -45,8 +48,9 @@ function App() {
         question: "What would happen if a large asteroid hits the ocean?",
         image: largeAsteroid,
         options: [
-          { text: "It causes tsunamis", correct: true },
+          { text: "It causes humongous tsunamis", correct: true },
           { text: "It vaporizes instantly", correct: false },
+          { text: "It causes mass extinction", correct: false }
         ],
         explanation: "Large asteroids hitting the ocean can generate massive tsunamis."
       }
@@ -58,6 +62,7 @@ function App() {
         options: [
           { text: "Try to contact them", correct: false },
           { text: "Observe and analyze first", correct: true },
+          { text: "Attack them!", correct: false }
         ],
         explanation: "Scientists suggest analyzing before responding to avoid risks."
       }
@@ -69,8 +74,45 @@ function App() {
         options: [
           { text: "Using renewable energy", correct: true },
           { text: "Turning off lights at night", correct: false },
+          { text: "Reducing the usage of CFG gases", correct: false }
         ],
         explanation: "Switching to renewable energy reduces emissions significantly."
+      }
+    ],
+    ai: [
+      {
+        question: "What is a potential risk of AI surpassing human intelligence?",
+        image: aiTakeover,
+        options: [
+          { text: "It could automate all jobs", correct: false },
+          { text: "It may make humans obsolete", correct: true },
+          { text: "It will never surpass humans", correct: false }
+        ],
+        explanation: "Experts warn AI could outpace human control, leading to risks."
+      }
+    ],
+    supervolcano: [
+      {
+        question: "What would happen if Yellowstone's supervolcano erupts?",
+        image: supervolcano,
+        options: [
+          { text: "Minor earthquakes and small eruptions", correct: false },
+          { text: "A global climate disaster", correct: true },
+          { text: "Only local damage", correct: false }
+        ],
+        explanation: "A supervolcano eruption would impact global temperatures and food supply."
+      }
+    ],
+    nuclear: [
+      {
+        question: "What is the biggest risk of a nuclear war?",
+        image: nuclearWar,
+        options: [
+          { text: "Massive explosions only", correct: false },
+          { text: "Long-term radiation and climate impact", correct: true },
+          { text: "Governments will stop it in time", correct: false }
+        ],
+        explanation: "A nuclear war could cause nuclear winter, starvation, and long-term radiation effects."
       }
     ]
   };
@@ -85,12 +127,8 @@ function App() {
     } else {
       playWrong();
       setAttempts(attempts + 1);
-      if (attempts < 1) {
-        setResult('❌ Incorrect. Try again!');
-      } else {
-        setResult(`❌ Incorrect. The correct answer is: ${scenarios[scenarioType][currentScenario].options.find(opt => opt.correct).text}`);
-        setAttempts(0);
-      }
+      setResult(`❌ Incorrect. ${attempts < 1 ? "Try again!" : `The correct answer is: ${scenarios[scenarioType][currentScenario].options.find(opt => opt.correct).text}`}`);
+      if (attempts >= 1) setAttempts(0);
     }
   };
 
@@ -120,7 +158,6 @@ function App() {
 
   return (
     <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
-
       <button className="dark-mode-toggle" onClick={() => setIsDarkMode(!isDarkMode)}>
         {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
       </button>
@@ -134,36 +171,52 @@ function App() {
           <option value="asteroid">☄️ Asteroid Impact</option>
           <option value="alien">👽 Alien Invasion</option>
           <option value="climate">🌡️ Climate Change</option>
+          <option value="ai">🤖 AI Future</option>
+          <option value="supervolcano">🌋 SuperVolcano Explosion</option>
+          <option value="nuclear">⚛️ Nuclear Blast</option>
         </select>
       </div>
-      {scenarioType && scenarios[scenarioType] && scenarios[scenarioType].length > 0 && (
-        <motion.div
-          className="scenario"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2>{scenarios[scenarioType][currentScenario].question}</h2>
-          <img src={scenarios[scenarioType][currentScenario].image} alt="Scenario" className="scenario-image" />
-          <div className="options">
-            {scenarios[scenarioType][currentScenario].options.map((option, index) => (
-              <motion.button
-                key={index}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => handleOptionSelect(option)}
-              >
-                {option.text}
-              </motion.button>
-            ))}
-          </div>
-          {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
-          <div className="navigation">
-            <button onClick={prevScenario} disabled={currentScenario === 0}>⬅️ Previous</button>
-            <button onClick={nextScenario} disabled={currentScenario >= scenarios[scenarioType].length - 1}>Next ➡️</button>
-          </div>
-        </motion.div>
-      )}
+      {scenarioType && scenarios[scenarioType] && scenarios[scenarioType][currentScenario] && (
+  <motion.div
+    className="scenario"
+    initial={{ scale: 0.9, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 0.5 }}
+  >
+    <h2>{scenarios[scenarioType][currentScenario].question}</h2>
+    <img 
+      src={scenarios[scenarioType][currentScenario].image} 
+      alt="Scenario" 
+      className="scenario-image" 
+    />
+    
+    {/* ✅ Check if options exist before mapping */}
+    {scenarios[scenarioType][currentScenario].options ? (
+      <div className="options">
+        {scenarios[scenarioType][currentScenario].options.map((option, index) => (
+          <motion.button
+            key={index}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => handleOptionSelect(option)}
+          >
+            {option.text}
+          </motion.button>
+        ))}
+      </div>
+    ) : (
+      <p>No options available.</p>  // Error handling
+    )}
+    
+    {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
+
+    <div className="navigation">
+      <button onClick={prevScenario} disabled={currentScenario === 0}>⬅️ Previous</button>
+      <button onClick={nextScenario} disabled={currentScenario >= scenarios[scenarioType].length - 1}>Next ➡️</button>
+    </div>
+  </motion.div>
+)}
+
     </div>
   );
 }
