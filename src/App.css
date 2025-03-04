@@ -11,6 +11,14 @@
   h1 {
       font-size: 24px; /* Adjust as needed */
   }
+  .App {
+    padding: 10px; /* Reduce padding for smaller screens */
+}
+
+button {
+    font-size: 14px;
+    padding: 10px 16px;
+}
 }
 
 /* Set background image */
