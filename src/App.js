@@ -5,11 +5,11 @@ import clickSound from './sounds/click.mp3';
 import correctSound from './sounds/correct.mp3';
 import wrongSound from './sounds/wrong.mp3';
 import bgMusic from './sounds/background.mp3';
-import smallAsteroid from './images/small-asteroid.jpg';
+import smallAsteroid from './images/small-asteroid.gif';
 import mediumAsteroid from './images/medium-asteroid.jpg';
-import largeAsteroid from './images/large-asteroid.jpeg';
-import alienInvasion from './images/alien-invasion.jpg';
-import climateChange from './images/climate-change.jpeg';
+import largeAsteroid from './images/large-asteroid.gif';
+import alienInvasion from './images/alien-invasion.gif';
+import climateChange from './images/climate-change.gif';
 import aiTakeover from './images/ai-takeover.gif';
 import supervolcano from './images/supervolcano.gif';
 import nuclearWar from './images/nuclear-war.gif';
@@ -22,6 +22,9 @@ function App() {
   const [currentScenario, setCurrentScenario] = useState(0);
   const [scenarioType, setScenarioType] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [score, setScore] = useState(0);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [playClick] = useSound(clickSound);
   const [playCorrect] = useSound(correctSound);
   const [playWrong] = useSound(wrongSound);
@@ -31,6 +34,12 @@ function App() {
     playBgMusic();
     return () => stop();
   }, [playBgMusic, stop]);
+
+  useEffect(() => {
+    const storedLeaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    setLeaderboard(storedLeaderboard);
+  }, []);
+
 
   const scenarios = {
     asteroid: [
@@ -45,7 +54,7 @@ function App() {
         explanation: "Most small asteroids burn up before reaching the ground."
       },
       {
-        question: "What would happen if a large asteroid hits the ocean?",
+        question: "What would happen if a large asteroid hits Earth?",
         image: largeAsteroid,
         options: [
           { text: "It causes humongous tsunamis", correct: true },
@@ -117,20 +126,30 @@ function App() {
     ]
   };
 
+  const updateLeaderboard = (newScore) => {
+    const updatedLeaderboard = [...leaderboard, newScore].sort((a, b) => b - a).slice(0, 5);
+    setLeaderboard(updatedLeaderboard);
+    localStorage.setItem('leaderboard', JSON.stringify(updatedLeaderboard));
+  };
+
+
   const handleOptionSelect = (option) => {
     playClick();
     setSelectedOption(option.text);
     if (option.correct) {
       playCorrect();
-      setResult(`✅ Correct! ${scenarios[scenarioType][currentScenario].explanation}`);
+      setResult(`✅ Correct!`);
+      const newScore = score + 10;
+      setScore(newScore);
+      updateLeaderboard(newScore);
       setAttempts(0);
     } else {
       playWrong();
       setAttempts(attempts + 1);
-      setResult(`❌ Incorrect. ${attempts < 1 ? "Try again!" : `The correct answer is: ${scenarios[scenarioType][currentScenario].options.find(opt => opt.correct).text}`}`);
-      if (attempts >= 1) setAttempts(0);
+      setResult(`❌ Incorrect. Try again!`);
     }
   };
+
 
   const nextScenario = () => {
     if (currentScenario < scenarios[scenarioType].length - 1) {
@@ -164,8 +183,25 @@ function App() {
       <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
         🌎 What If Simulator
       </motion.h1>
+
+      <button className="leaderboard-toggle" onClick={() => setShowLeaderboard(!showLeaderboard)}>
+      {showLeaderboard ? 'Hide 🏆 Leaderboard' : 'Show 🏆 Leaderboard'}
+    </button>
+    
+      
+      {showLeaderboard && (
+        <div className="leaderboard">
+          <h2>🏆 Leaderboard</h2>
+          <ol>
+            {leaderboard.map((score, index) => (
+              <li key={index}>Player {index + 1}: {score} points</li>
+            ))}
+          </ol>
+        </div>
+      )}
+
       <div className="scenario-selector">
-        <label htmlFor="scenario-type">Choose a scenario:</label>
+        <label htmlFor="scenario-type">Choose a What If scenario:</label>
         <select id="scenario-type" value={scenarioType} onChange={handleScenarioChange}>
           <option value="">Select a scenario</option>
           <option value="asteroid">☄️ Asteroid Impact</option>
