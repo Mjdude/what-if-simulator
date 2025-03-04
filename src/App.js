@@ -185,7 +185,7 @@ function App() {
       </motion.h1>
 
       <button className="leaderboard-toggle" onClick={() => setShowLeaderboard(!showLeaderboard)}>
-      {showLeaderboard ? 'Hide 🏆 Leaderboard' : 'Show 🏆 Leaderboard'}
+      {showLeaderboard ? 'Hide 🏆 Leaderboard' : '🏆'}
     </button>
     
       
