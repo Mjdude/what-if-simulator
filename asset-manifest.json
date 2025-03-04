@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/what-if-simulator/static/css/main.08036617.css",
-    "main.js": "/what-if-simulator/static/js/main.877f5aa9.js",
+    "main.css": "/what-if-simulator/static/css/main.2ff1bf64.css",
+    "main.js": "/what-if-simulator/static/js/main.180f92f2.js",
     "static/js/885.562d7ba9.chunk.js": "/what-if-simulator/static/js/885.562d7ba9.chunk.js",
     "static/js/453.fb5195e2.chunk.js": "/what-if-simulator/static/js/453.fb5195e2.chunk.js",
     "static/media/climate-change.gif": "/what-if-simulator/static/media/climate-change.37a7778cb8a95742d345.gif",
@@ -18,13 +18,13 @@
     "static/media/click.mp3": "/what-if-simulator/static/media/click.574c806ae9f7f4694b27.mp3",
     "static/media/correct.mp3": "/what-if-simulator/static/media/correct.ed3894f877249fd39ddf.mp3",
     "index.html": "/what-if-simulator/index.html",
-    "main.08036617.css.map": "/what-if-simulator/static/css/main.08036617.css.map",
-    "main.877f5aa9.js.map": "/what-if-simulator/static/js/main.877f5aa9.js.map",
+    "main.2ff1bf64.css.map": "/what-if-simulator/static/css/main.2ff1bf64.css.map",
+    "main.180f92f2.js.map": "/what-if-simulator/static/js/main.180f92f2.js.map",
     "885.562d7ba9.chunk.js.map": "/what-if-simulator/static/js/885.562d7ba9.chunk.js.map",
     "453.fb5195e2.chunk.js.map": "/what-if-simulator/static/js/453.fb5195e2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.08036617.css",
-    "static/js/main.877f5aa9.js"
+    "static/css/main.2ff1bf64.css",
+    "static/js/main.180f92f2.js"
   ]
 }
