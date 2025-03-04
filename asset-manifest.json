@@ -1,19 +1,30 @@
 {
   "files": {
-    "main.css": "/repository-name/static/css/main.d04ef63f.css",
-    "main.js": "/repository-name/static/js/main.540ab099.js",
-    "static/js/453.fb5195e2.chunk.js": "/repository-name/static/js/453.fb5195e2.chunk.js",
-    "static/media/climate-change.jpeg": "/repository-name/static/media/climate-change.73ae6320fd5da64ec8a0.jpeg",
-    "static/media/alien-invasion.jpg": "/repository-name/static/media/alien-invasion.726617d7108336ae2ded.jpg",
-    "static/media/medium-asteroid.jpg": "/repository-name/static/media/medium-asteroid.fb71affdc22982b3b791.jpg",
-    "static/media/small-asteroid.jpg": "/repository-name/static/media/small-asteroid.22ee9a82c8d7b5132a2a.jpg",
-    "index.html": "/repository-name/index.html",
-    "main.d04ef63f.css.map": "/repository-name/static/css/main.d04ef63f.css.map",
-    "main.540ab099.js.map": "/repository-name/static/js/main.540ab099.js.map",
-    "453.fb5195e2.chunk.js.map": "/repository-name/static/js/453.fb5195e2.chunk.js.map"
+    "main.css": "/what-if-simulator/static/css/main.08036617.css",
+    "main.js": "/what-if-simulator/static/js/main.877f5aa9.js",
+    "static/js/885.562d7ba9.chunk.js": "/what-if-simulator/static/js/885.562d7ba9.chunk.js",
+    "static/js/453.fb5195e2.chunk.js": "/what-if-simulator/static/js/453.fb5195e2.chunk.js",
+    "static/media/climate-change.gif": "/what-if-simulator/static/media/climate-change.37a7778cb8a95742d345.gif",
+    "static/media/nuclear-war.gif": "/what-if-simulator/static/media/nuclear-war.a119c5aefe51c69d11d4.gif",
+    "static/media/supervolcano.gif": "/what-if-simulator/static/media/supervolcano.9e8deae8a93f473f5a04.gif",
+    "static/media/background.mp3": "/what-if-simulator/static/media/background.09a642ed6a7f66b9d0b3.mp3",
+    "static/media/alien-invasion.gif": "/what-if-simulator/static/media/alien-invasion.7bac1dad07f828928a1b.gif",
+    "static/media/large-asteroid.gif": "/what-if-simulator/static/media/large-asteroid.af8ad88ba6778fbba2b0.gif",
+    "static/media/ai-takeover.gif": "/what-if-simulator/static/media/ai-takeover.971d04f4c4068faea618.gif",
+    "static/media/small-asteroid.gif": "/what-if-simulator/static/media/small-asteroid.19a42ad36c9e40383b4a.gif",
+    "static/media/medium-asteroid.jpg": "/what-if-simulator/static/media/medium-asteroid.fb71affdc22982b3b791.jpg",
+    "static/media/wrong.mp3": "/what-if-simulator/static/media/wrong.a800d8f6d77100112d71.mp3",
+    "static/media/background.jpg": "/what-if-simulator/static/media/background.2c209b12ef70b94ccd17.jpg",
+    "static/media/click.mp3": "/what-if-simulator/static/media/click.574c806ae9f7f4694b27.mp3",
+    "static/media/correct.mp3": "/what-if-simulator/static/media/correct.ed3894f877249fd39ddf.mp3",
+    "index.html": "/what-if-simulator/index.html",
+    "main.08036617.css.map": "/what-if-simulator/static/css/main.08036617.css.map",
+    "main.877f5aa9.js.map": "/what-if-simulator/static/js/main.877f5aa9.js.map",
+    "885.562d7ba9.chunk.js.map": "/what-if-simulator/static/js/885.562d7ba9.chunk.js.map",
+    "453.fb5195e2.chunk.js.map": "/what-if-simulator/static/js/453.fb5195e2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d04ef63f.css",
-    "static/js/main.540ab099.js"
+    "static/css/main.08036617.css",
+    "static/js/main.877f5aa9.js"
   ]
 }
