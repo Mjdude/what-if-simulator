@@ -13,6 +13,12 @@ import climateChange from './images/climate-change.gif';
 import aiTakeover from './images/ai-takeover.gif';
 import supervolcano from './images/supervolcano.gif';
 import nuclearWar from './images/nuclear-war.gif';
+import nuclearWinter from './images/nuclear2.gif';
+import climateCloud from './images/cloud2.gif';
+import superVolcano1 from './images/supervolcano2.gif';
+import alienInvasion2 from './images/alien2.gif';
+import climateChange1 from './images/climate2.gif';
+import aiTakeover1 from './images/ai2.gif';
 import './App.css';
 
 function App() {
@@ -29,6 +35,9 @@ function App() {
   const [playCorrect] = useSound(correctSound);
   const [playWrong] = useSound(wrongSound);
   const [playBgMusic, { stop }] = useSound(bgMusic, { volume: 0.5, loop: true });
+  const [gameMode, setGameMode] = useState(null);
+  const [playerScores, setPlayerScores] = useState([0, 0]);
+  const [currentPlayer, setCurrentPlayer] = useState(0);
 
   useEffect(() => {
     playBgMusic();
@@ -40,7 +49,18 @@ function App() {
     setLeaderboard(storedLeaderboard);
   }, []);
 
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0';
+    document.head.appendChild(meta);
+  
+    return () => {
+      document.head.removeChild(meta);
+    };
+  }, []);
 
+  // Your scenarios object remains the same...
   const scenarios = {
     asteroid: [
       {
@@ -74,6 +94,16 @@ function App() {
           { text: "Attack them!", correct: false }
         ],
         explanation: "Scientists suggest analyzing before responding to avoid risks."
+      },
+      {
+        question: "How should we prepare for potential alien contact?",
+        image: alienInvasion2, // Consider a different image for preparation scenario
+        options: [
+          { text: "Build more weapons and defenses", correct: false },
+          { text: "Develop international protocols and research", correct: true },
+          { text: "Ignore the possibility until it happens", correct: false }
+        ],
+        explanation: "The SETI Institute recommends coordinated scientific preparation rather than militarization."
       }
     ],
     climate: [
@@ -86,6 +116,16 @@ function App() {
           { text: "Reducing the usage of CFG gases", correct: false }
         ],
         explanation: "Switching to renewable energy reduces emissions significantly."
+      },
+      {
+        question: "What's the most effective way for individuals to reduce their carbon footprint?",
+        image: climateChange1, // Consider using a different image like "carbon-footprint.jpg"
+        options: [
+          { text: "Reduce meat consumption", correct: true },
+          { text: "Recycle household waste", correct: false },
+          { text: "Use reusable shopping bags", correct: false }
+        ],
+        explanation: "Animal agriculture accounts for 14.5% of global emissions - reducing meat has a bigger impact than common recycling habits."
       }
     ],
     ai: [
@@ -98,6 +138,16 @@ function App() {
           { text: "It will never surpass humans", correct: false }
         ],
         explanation: "Experts warn AI could outpace human control, leading to risks."
+      },
+      {
+        question: "What's the biggest concern about autonomous weapons systems?",
+        image: aiTakeover1, // Could use "ai-weapons.jpg" for variety
+        options: [
+          { text: "They might malfunction", correct: false },
+          { text: "They could start wars without human consent", correct: true },
+          { text: "They would be too expensive", correct: false }
+        ],
+        explanation: "The UN warns 'killer robots' could lower thresholds for warfare and escalate conflicts uncontrollably."
       }
     ],
     supervolcano: [
@@ -110,6 +160,16 @@ function App() {
           { text: "Only local damage", correct: false }
         ],
         explanation: "A supervolcano eruption would impact global temperatures and food supply."
+      },
+      {
+        question: "What's the most likely warning sign before a supervolcano erupts?",
+        image: superVolcano1, // Could use "volcano-monitoring.jpg"
+        options: [
+          { text: "Sudden animal migrations", correct: false },
+          { text: "Intense earthquake swarms and ground uplift", correct: true },
+          { text: "Unusual weather patterns", correct: false }
+        ],
+        explanation: "Scientists monitor seismic activity and ground deformation as key indicators of potential eruptions."
       }
     ],
     nuclear: [
@@ -122,6 +182,16 @@ function App() {
           { text: "Governments will stop it in time", correct: false }
         ],
         explanation: "A nuclear war could cause nuclear winter, starvation, and long-term radiation effects."
+      },
+      {
+        question: "What would nuclear winter most severely affect?",
+        image: nuclearWinter, // Could use "nuclear-winter.jpg"
+        options: [
+          { text: "Global food production", correct: true },
+          { text: "Electronic devices worldwide", correct: false },
+          { text: "Ocean current patterns", correct: false }
+        ],
+        explanation: "Soot blocking sunlight would cause catastrophic crop failures and mass starvation globally."
       }
     ]
   };
@@ -132,16 +202,21 @@ function App() {
     localStorage.setItem('leaderboard', JSON.stringify(updatedLeaderboard));
   };
 
-
   const handleOptionSelect = (option) => {
     playClick();
     setSelectedOption(option.text);
     if (option.correct) {
       playCorrect();
       setResult(`✅ Correct!`);
-      const newScore = score + 10;
-      setScore(newScore);
-      updateLeaderboard(newScore);
+      if (gameMode === 'single') {
+        const newScore = score + 10;
+        setScore(newScore);
+        updateLeaderboard(newScore);
+      } else {
+        const newScores = [...playerScores];
+        newScores[currentPlayer] += 10;
+        setPlayerScores(newScores);
+      }
       setAttempts(0);
     } else {
       playWrong();
@@ -150,12 +225,15 @@ function App() {
     }
   };
 
-
   const nextScenario = () => {
     if (currentScenario < scenarios[scenarioType].length - 1) {
       setCurrentScenario(currentScenario + 1);
       setResult('');
       setSelectedOption('');
+      // Switch player after answering (not just when moving to next scenario)
+      if (gameMode === 'multi') {
+        setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
+      }
     }
   };
 
@@ -164,6 +242,7 @@ function App() {
       setCurrentScenario(currentScenario - 1);
       setResult('');
       setSelectedOption('');
+      // Don't switch player when going back
     }
   };
 
@@ -173,86 +252,227 @@ function App() {
     setCurrentScenario(0);
     setResult('');
     setSelectedOption('');
+    // Reset to player 1 when changing scenario type
+    if (gameMode === 'multi') {
+      setCurrentPlayer(0);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Your message has been sent!');
+  };
+
+  const selectGameMode = (mode) => {
+    playClick();
+    setGameMode(mode);
+    setScore(0);
+    setPlayerScores([0, 0]);
+    setCurrentPlayer(0);
+  };
+
+  const resetGame = () => {
+    setGameMode(null);
+    setScenarioType('');
+    setCurrentScenario(0);
+    setResult('');
+    setSelectedOption('');
   };
 
   return (
     <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
-      <button className="dark-mode-toggle" onClick={() => setIsDarkMode(!isDarkMode)}>
+      <button 
+        className={`dark-mode-toggle ${isDarkMode ? 'dark' : 'light'}`} 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+      >
         {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
       </button>
+
       <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
         🌎 What If Simulator
       </motion.h1>
 
-      <button className="leaderboard-toggle" onClick={() => setShowLeaderboard(!showLeaderboard)}>
-      {showLeaderboard ? 'Hide 🏆 Leaderboard' : '🏆'}
-    </button>
-    
-      
-      {showLeaderboard && (
-        <div className="leaderboard">
-          <h2>🏆 Leaderboard</h2>
-          <ol>
-            {leaderboard.map((score, index) => (
-              <li key={index}>Player {index + 1}: {score} points</li>
-            ))}
-          </ol>
+      <p className="description">
+        Welcome to the "What If Simulator"! 🚀 This interactive game explores various catastrophic and futuristic scenarios,
+        allowing you to test your knowledge and make decisions that could shape the outcome. Choose a scenario and see if you
+        can survive the unexpected!
+      </p>
+
+      {!gameMode ? (
+        <div className="game-mode-selector">
+          <h2>Select Game Mode</h2>
+          <div className="mode-buttons">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => selectGameMode('single')}
+              className="mode-button"
+            >
+              1 Player
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => selectGameMode('multi')}
+              className="mode-button"
+            >
+              2 Players
+            </motion.button>
+          </div>
         </div>
+      ) : (
+        <>
+          <button 
+            className={`reset-button ${isDarkMode ? 'dark' : 'light'}`} 
+            onClick={resetGame}
+          >
+            ↩️ Change Game Mode
+          </button>
+
+          {gameMode === 'multi' && (
+            <div className="player-scores">
+              <div className={`player-score ${currentPlayer === 0 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
+                Player 1: {playerScores[0]} points
+              </div>
+              <div className={`player-score ${currentPlayer === 1 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
+                Player 2: {playerScores[1]} points
+              </div>
+            </div>
+          )}
+
+          <button 
+            className={`leaderboard-toggle ${isDarkMode ? 'dark' : 'light'}`} 
+            onClick={() => setShowLeaderboard(!showLeaderboard)}
+          >
+            {showLeaderboard ? 'Hide 🏆 Leaderboard' : '🏆'}
+          </button>
+          
+          {showLeaderboard && (
+            <div className={`leaderboard ${isDarkMode ? 'dark' : 'light'}`}>
+              <h2>🏆 Leaderboard</h2>
+              <ol>
+                {leaderboard.map((score, index) => (
+                  <li key={index}>Player {index + 1}: {score} points</li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          <div className="scenario-selector">
+            <label htmlFor="scenario-type">Choose a What If scenario:</label>
+            <select 
+              id="scenario-type" 
+              value={scenarioType} 
+              onChange={handleScenarioChange}
+              className={isDarkMode ? 'dark' : 'light'}
+            >
+              <option value="">Select a scenario</option>
+              <option value="asteroid">☄️ Asteroid Impact</option>
+              <option value="alien">👽 Alien Invasion</option>
+              <option value="climate">🌡️ Climate Change</option>
+              <option value="ai">🤖 AI Future</option>
+              <option value="supervolcano">🌋 SuperVolcano Explosion</option>
+              <option value="nuclear">⚛️ Nuclear Blast</option>
+            </select>
+          </div>
+
+          {scenarioType && scenarios[scenarioType] && scenarios[scenarioType][currentScenario] && (
+            <motion.div
+              className="scenario"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2>{scenarios[scenarioType][currentScenario].question}</h2>
+              {gameMode === 'multi' && (
+                <div className={`current-player-indicator ${isDarkMode ? 'dark' : 'light'}`}>
+                  Player {currentPlayer + 1}'s turn
+                </div>
+              )}
+              <img 
+                src={scenarios[scenarioType][currentScenario].image} 
+                alt="Scenario" 
+                className="scenario-image" 
+              />
+              
+              {scenarios[scenarioType][currentScenario].options ? (
+                <div className="options">
+                  {scenarios[scenarioType][currentScenario].options.map((option, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => handleOptionSelect(option)}
+                      className={isDarkMode ? 'dark' : 'light'}
+                    >
+                      {option.text}
+                    </motion.button>
+                  ))}
+                </div>
+              ) : (
+                <p>No options available.</p>
+              )}
+              
+              {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
+
+              <div className="navigation">
+                <button 
+                  onClick={prevScenario} 
+                  disabled={currentScenario === 0}
+                  className={isDarkMode ? 'dark' : 'light'}
+                >
+                  ⬅️ Previous
+                </button>
+                <button 
+                  onClick={nextScenario} 
+                  disabled={currentScenario >= scenarios[scenarioType].length - 1}
+                  className={isDarkMode ? 'dark' : 'light'}
+                >
+                  Next ➡️
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          <div className="contact-form">
+            <h2>📩 Contact Me</h2>
+            <form onSubmit={handleSubmit}>
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="Your Name" 
+                required 
+                className={isDarkMode ? 'dark' : 'light'}
+              />
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Your Email" 
+                required 
+                className={isDarkMode ? 'dark' : 'light'}
+              />
+              <textarea 
+                name="message" 
+                placeholder="Your Message" 
+                rows="4" 
+                required
+                className={isDarkMode ? 'dark' : 'light'}
+              ></textarea>
+              <button 
+                type="submit"
+                className={isDarkMode ? 'dark' : 'light'}
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </>
       )}
 
-      <div className="scenario-selector">
-        <label htmlFor="scenario-type">Choose a What If scenario:</label>
-        <select id="scenario-type" value={scenarioType} onChange={handleScenarioChange}>
-          <option value="">Select a scenario</option>
-          <option value="asteroid">☄️ Asteroid Impact</option>
-          <option value="alien">👽 Alien Invasion</option>
-          <option value="climate">🌡️ Climate Change</option>
-          <option value="ai">🤖 AI Future</option>
-          <option value="supervolcano">🌋 SuperVolcano Explosion</option>
-          <option value="nuclear">⚛️ Nuclear Blast</option>
-        </select>
-      </div>
-      {scenarioType && scenarios[scenarioType] && scenarios[scenarioType][currentScenario] && (
-  <motion.div
-    className="scenario"
-    initial={{ scale: 0.9, opacity: 0 }}
-    animate={{ scale: 1, opacity: 1 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2>{scenarios[scenarioType][currentScenario].question}</h2>
-    <img 
-      src={scenarios[scenarioType][currentScenario].image} 
-      alt="Scenario" 
-      className="scenario-image" 
-    />
-    
-    {/* ✅ Check if options exist before mapping */}
-    {scenarios[scenarioType][currentScenario].options ? (
-      <div className="options">
-        {scenarios[scenarioType][currentScenario].options.map((option, index) => (
-          <motion.button
-            key={index}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handleOptionSelect(option)}
-          >
-            {option.text}
-          </motion.button>
-        ))}
-      </div>
-    ) : (
-      <p>No options available.</p>  // Error handling
-    )}
-    
-    {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
-
-    <div className="navigation">
-      <button onClick={prevScenario} disabled={currentScenario === 0}>⬅️ Previous</button>
-      <button onClick={nextScenario} disabled={currentScenario >= scenarios[scenarioType].length - 1}>Next ➡️</button>
-    </div>
-  </motion.div>
-)}
-
+      <footer className="footer">
+        <p>© 2025 What If Simulator | Designed by Prashanth A</p>
+        <p>Follow me on <a href="https://github.com/yourgithub">GitHub</a> | <a href="https://linkedin.com/in/yourlinkedin">LinkedIn</a></p>
+      </footer>
     </div>
   );
 }

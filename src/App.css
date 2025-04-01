@@ -39,6 +39,30 @@ h1 {
   font-weight: 700;
 }
 
+.description {
+  font-size: 1.2rem;
+  color: #f8f9fa;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(50, 50, 50, 0.9));
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 70%;
+  margin: 25px auto;
+  line-height: 1.6;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.description:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+
+
 /* Leaderboard Button - Top Left */
 button.leaderboard-toggle {
   position: absolute;
@@ -265,7 +289,7 @@ button:disabled {
   color: #000000; /* Updated text color */
   cursor: pointer;
   transition: all 0.3s ease;
-  animation: float 3s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
 .scenario-selector select:hover {
@@ -276,6 +300,15 @@ button:disabled {
   outline: none;
   border-color: #ffcc00;
 }
+
+.scenario-selector label {
+  font-size: 1.3rem; /* Adjust size as needed */
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+  display: block;
+}
+
 
 @keyframes float {
   0%, 100% {
@@ -320,6 +353,7 @@ button:disabled {
   background: rgba(255, 255, 255, 0.2);
   color: rgb(0, 0, 0);
   border: 2px solid white;
+
 }
 
 /* Dark Mode - Adjust styles dynamically */
@@ -342,3 +376,255 @@ button:disabled {
 .App.dark-mode .navigation button:hover {
   background: #ff3b2f;
 }
+
+/*contact form*/
+.contact-form {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 70%;
+  margin: 30px auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact-form h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 120px;
+}
+
+.contact-form button {
+  background: linear-gradient(45deg, #ff4b2b, #ff416c);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-form button:hover {
+  background: linear-gradient(45deg, #ff6a4d, #ff5678);
+  transform: scale(1.05);
+}
+
+/* Add these to your existing App.css */
+
+/* Light/Dark mode specific styles */
+.dark-mode-toggle.dark {
+  background-color: #333;
+  color: white;
+}
+
+.dark-mode-toggle.light {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.reset-button.dark {
+  background-color: #444;
+  color: white;
+}
+
+.reset-button.light {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.leaderboard-toggle.dark {
+  background-color: #444;
+  color: white;
+}
+
+.leaderboard-toggle.light {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.player-score.dark {
+  background-color: #333;
+  color: white;
+}
+
+.player-score.light {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.player-score.active.dark {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.player-score.active.light {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.current-player-indicator.dark {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.current-player-indicator.light {
+  background-color: #4CAF50;
+  color: white;
+}
+
+select.dark {
+  background-color: #333;
+  color: white;
+}
+
+select.light {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+button.dark {
+  background-color: #444;
+  color: white;
+}
+
+button.light {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+input.dark, textarea.dark {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+input.light, textarea.light {
+  background-color: rgb(255, 255, 255);
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+/* Existing styles with improvements */
+.game-mode-selector {
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 500px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mode-button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+.reset-button {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.player-scores {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+}
+
+.player-score {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.current-player-indicator {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Ensure form elements are visible in both modes */
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  h1 {
+      font-size: 1.8em;
+  }
+  button {
+      font-size: 12px;
+      padding: 8px 12px;
+  }
+  .description {
+      font-size: 1rem;
+      max-width: 90%;
+  }
+}
+
