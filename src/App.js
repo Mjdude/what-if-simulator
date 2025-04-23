@@ -20,6 +20,8 @@ import alienInvasion2 from './images/alien2.gif';
 import climateChange1 from './images/climate2.gif';
 import aiTakeover1 from './images/ai2.gif';
 import './App.css';
+import LoginForm from './loginform/LoginForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -38,6 +40,7 @@ function App() {
   const [gameMode, setGameMode] = useState(null);
   const [playerScores, setPlayerScores] = useState([0, 0]);
   const [currentPlayer, setCurrentPlayer] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     playBgMusic();
@@ -279,200 +282,207 @@ function App() {
     setSelectedOption('');
   };
 
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
-      <button 
-        className={`dark-mode-toggle ${isDarkMode ? 'dark' : 'light'}`} 
-        onClick={() => setIsDarkMode(!isDarkMode)}
-      >
-        {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-      </button>
-
-      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-        🌎 What If Simulator
-      </motion.h1>
-
-      <p className="description">
-        Welcome to the "What If Simulator"! 🚀 This interactive game explores various catastrophic and futuristic scenarios,
-        allowing you to test your knowledge and make decisions that could shape the outcome. Choose a scenario and see if you
-        can survive the unexpected!
-      </p>
-
-      {!gameMode ? (
-        <div className="game-mode-selector">
-          <h2>Select Game Mode</h2>
-          <div className="mode-buttons">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => selectGameMode('single')}
-              className="mode-button"
-            >
-              1 Player
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => selectGameMode('multi')}
-              className="mode-button"
-            >
-              2 Players
-            </motion.button>
-          </div>
-        </div>
-      ) : (
+      {isLoggedIn ? (
         <>
           <button 
-            className={`reset-button ${isDarkMode ? 'dark' : 'light'}`} 
-            onClick={resetGame}
+            className={`dark-mode-toggle ${isDarkMode ? 'dark' : 'light'}`} 
+            onClick={() => setIsDarkMode(!isDarkMode)}
           >
-            ↩️ Change Game Mode
+            {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
           </button>
-
-          {gameMode === 'multi' && (
-            <div className="player-scores">
-              <div className={`player-score ${currentPlayer === 0 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
-                Player 1: {playerScores[0]} points
-              </div>
-              <div className={`player-score ${currentPlayer === 1 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
-                Player 2: {playerScores[1]} points
+          <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+            🌎 What If Simulator
+          </motion.h1>
+          <p className="description">
+            Welcome to the "What If Simulator"! 🚀 This interactive game explores various catastrophic and futuristic scenarios,
+            allowing you to test your knowledge and make decisions that could shape the outcome. Choose a scenario and see if you
+            can survive the unexpected!
+          </p>
+          {!gameMode ? (
+            <div className="game-mode-selector">
+              <h2>Select Game Mode</h2>
+              <div className="mode-buttons">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => selectGameMode('single')}
+                  className="mode-button"
+                >
+                  1 Player
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => selectGameMode('multi')}
+                  className="mode-button"
+                >
+                  2 Players
+                </motion.button>
               </div>
             </div>
-          )}
+          ) : (
+            <>
+              <button 
+                className={`reset-button ${isDarkMode ? 'dark' : 'light'}`} 
+                onClick={resetGame}
+              >
+                ↩️ Change Game Mode
+              </button>
 
-          <button 
-            className={`leaderboard-toggle ${isDarkMode ? 'dark' : 'light'}`} 
-            onClick={() => setShowLeaderboard(!showLeaderboard)}
-          >
-            {showLeaderboard ? 'Hide 🏆 Leaderboard' : '🏆'}
-          </button>
-          
-          {showLeaderboard && (
-            <div className={`leaderboard ${isDarkMode ? 'dark' : 'light'}`}>
-              <h2>🏆 Leaderboard</h2>
-              <ol>
-                {leaderboard.map((score, index) => (
-                  <li key={index}>Player {index + 1}: {score} points</li>
-                ))}
-              </ol>
-            </div>
-          )}
-
-          <div className="scenario-selector">
-            <label htmlFor="scenario-type">Choose a What If scenario:</label>
-            <select 
-              id="scenario-type" 
-              value={scenarioType} 
-              onChange={handleScenarioChange}
-              className={isDarkMode ? 'dark' : 'light'}
-            >
-              <option value="">Select a scenario</option>
-              <option value="asteroid">☄️ Asteroid Impact</option>
-              <option value="alien">👽 Alien Invasion</option>
-              <option value="climate">🌡️ Climate Change</option>
-              <option value="ai">🤖 AI Future</option>
-              <option value="supervolcano">🌋 SuperVolcano Explosion</option>
-              <option value="nuclear">⚛️ Nuclear Blast</option>
-            </select>
-          </div>
-
-          {scenarioType && scenarios[scenarioType] && scenarios[scenarioType][currentScenario] && (
-            <motion.div
-              className="scenario"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2>{scenarios[scenarioType][currentScenario].question}</h2>
               {gameMode === 'multi' && (
-                <div className={`current-player-indicator ${isDarkMode ? 'dark' : 'light'}`}>
-                  Player {currentPlayer + 1}'s turn
+                <div className="player-scores">
+                  <div className={`player-score ${currentPlayer === 0 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
+                    Player 1: {playerScores[0]} points
+                  </div>
+                  <div className={`player-score ${currentPlayer === 1 ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}>
+                    Player 2: {playerScores[1]} points
+                  </div>
                 </div>
               )}
-              <img 
-                src={scenarios[scenarioType][currentScenario].image} 
-                alt="Scenario" 
-                className="scenario-image" 
-              />
+
+              <button 
+                className={`leaderboard-toggle ${isDarkMode ? 'dark' : 'light'}`} 
+                onClick={() => setShowLeaderboard(!showLeaderboard)}
+              >
+                {showLeaderboard ? 'Hide 🏆 Leaderboard' : '🏆'}
+              </button>
               
-              {scenarios[scenarioType][currentScenario].options ? (
-                <div className="options">
-                  {scenarios[scenarioType][currentScenario].options.map((option, index) => (
-                    <motion.button
-                      key={index}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => handleOptionSelect(option)}
+              {showLeaderboard && (
+                <div className={`leaderboard ${isDarkMode ? 'dark' : 'light'}`}>
+                  <h2>🏆 Leaderboard</h2>
+                  <ol>
+                    {leaderboard.map((score, index) => (
+                      <li key={index}>Player {index + 1}: {score} points</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              <div className="scenario-selector">
+                <label htmlFor="scenario-type">Choose a What If scenario:</label>
+                <select 
+                  id="scenario-type" 
+                  value={scenarioType} 
+                  onChange={handleScenarioChange}
+                  className={isDarkMode ? 'dark' : 'light'}
+                >
+                  <option value="">Select a scenario</option>
+                  <option value="asteroid">☄️ Asteroid Impact</option>
+                  <option value="alien">👽 Alien Invasion</option>
+                  <option value="climate">🌡️ Climate Change</option>
+                  <option value="ai">🤖 AI Future</option>
+                  <option value="supervolcano">🌋 SuperVolcano Explosion</option>
+                  <option value="nuclear">⚛️ Nuclear Blast</option>
+                </select>
+              </div>
+
+              {scenarioType && scenarios[scenarioType] && scenarios[scenarioType][currentScenario] && (
+                <motion.div
+                  className="scenario"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h2>{scenarios[scenarioType][currentScenario].question}</h2>
+                  {gameMode === 'multi' && (
+                    <div className={`current-player-indicator ${isDarkMode ? 'dark' : 'light'}`}>
+                      Player {currentPlayer + 1}'s turn
+                    </div>
+                  )}
+                  <img 
+                    src={scenarios[scenarioType][currentScenario].image} 
+                    alt="Scenario" 
+                    className="scenario-image" 
+                  />
+                  
+                  {scenarios[scenarioType][currentScenario].options ? (
+                    <div className="options">
+                      {scenarios[scenarioType][currentScenario].options.map((option, index) => (
+                        <motion.button
+                          key={index}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleOptionSelect(option)}
+                          className={isDarkMode ? 'dark' : 'light'}
+                        >
+                          {option.text}
+                        </motion.button>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>No options available.</p>
+                  )}
+                  
+                  {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
+
+                  <div className="navigation">
+                    <button 
+                      onClick={prevScenario} 
+                      disabled={currentScenario === 0}
                       className={isDarkMode ? 'dark' : 'light'}
                     >
-                      {option.text}
-                    </motion.button>
-                  ))}
-                </div>
-              ) : (
-                <p>No options available.</p>
+                      ⬅️ Previous
+                    </button>
+                    <button 
+                      onClick={nextScenario} 
+                      disabled={currentScenario >= scenarios[scenarioType].length - 1}
+                      className={isDarkMode ? 'dark' : 'light'}
+                    >
+                      Next ➡️
+                    </button>
+                  </div>
+                </motion.div>
               )}
-              
-              {result && <motion.p className="result" animate={{ scale: 1.1 }}>{result}</motion.p>}
 
-              <div className="navigation">
-                <button 
-                  onClick={prevScenario} 
-                  disabled={currentScenario === 0}
-                  className={isDarkMode ? 'dark' : 'light'}
-                >
-                  ⬅️ Previous
-                </button>
-                <button 
-                  onClick={nextScenario} 
-                  disabled={currentScenario >= scenarios[scenarioType].length - 1}
-                  className={isDarkMode ? 'dark' : 'light'}
-                >
-                  Next ➡️
-                </button>
+              <div className="contact-form">
+                <h2>📩 Contact Me</h2>
+                <form onSubmit={handleSubmit}>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    placeholder="Your Name" 
+                    required 
+                    className={isDarkMode ? 'dark' : 'light'}
+                  />
+                  <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Your Email" 
+                    required 
+                    className={isDarkMode ? 'dark' : 'light'}
+                  />
+                  <textarea 
+                    name="message" 
+                    placeholder="Your Message" 
+                    rows="4" 
+                    required
+                    className={isDarkMode ? 'dark' : 'light'}
+                  ></textarea>
+                  <button 
+                    type="submit"
+                    className={isDarkMode ? 'dark' : 'light'}
+                  >
+                    Send Message
+                  </button>
+                </form>
               </div>
-            </motion.div>
+            </>
           )}
 
-          <div className="contact-form">
-            <h2>📩 Contact Me</h2>
-            <form onSubmit={handleSubmit}>
-              <input 
-                type="text" 
-                name="name" 
-                placeholder="Your Name" 
-                required 
-                className={isDarkMode ? 'dark' : 'light'}
-              />
-              <input 
-                type="email" 
-                name="email" 
-                placeholder="Your Email" 
-                required 
-                className={isDarkMode ? 'dark' : 'light'}
-              />
-              <textarea 
-                name="message" 
-                placeholder="Your Message" 
-                rows="4" 
-                required
-                className={isDarkMode ? 'dark' : 'light'}
-              ></textarea>
-              <button 
-                type="submit"
-                className={isDarkMode ? 'dark' : 'light'}
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
+          <footer className="footer">
+            <p>© 2025 What If Simulator | Designed by Prashanth A</p>
+            <p>Follow me on <a href="https://github.com/yourgithub">GitHub</a> | <a href="https://linkedin.com/in/yourlinkedin">LinkedIn</a></p>
+          </footer>
         </>
+      ) : (
+        <LoginForm onLogin={handleLogin} />
       )}
-
-      <footer className="footer">
-        <p>© 2025 What If Simulator | Designed by Prashanth A</p>
-        <p>Follow me on <a href="https://github.com/yourgithub">GitHub</a> | <a href="https://linkedin.com/in/yourlinkedin">LinkedIn</a></p>
-      </footer>
     </div>
   );
 }
